@@ -1,0 +1,167 @@
+{% extends 'top.html' %}
+{% load static %}
+{% block content %}
+<style>
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2.2em;
+      letter-spacing: 1px;
+      animation: glowText 1.5s infinite alternate;
+    }
+    .note {
+      background: linear-gradient(to right, #cfc6e6a4, #f5d8b0ab);
+      padding: 15px;
+      border-left: 5px solid #033c63;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(1, 0, 15, 0);
+      border-radius: 10px;
+      overflow: hidden;
+      animation: fadeIn 1s ease-in;
+    }
+    /* Make table horizontally scrollable on small screens */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table, th, td {
+      
+         border: 1px solid #cccccc;
+         box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+         padding: 12px;
+
+    }
+								
+    th {
+      background: #34495e;
+      color: #ffffff;
+      padding: 12px;
+      text-align: left;
+      font-size: 1.05em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 12px;
+      font-size: 0.95em;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .role-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .role-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .role-card img:hover {
+      transform: scale(1.1);
+    }
+    .manager { background: linear-gradient(to right, #ddfd93, #b2e7b8); } 
+    .release-manager { background: linear-gradient(to right, #ffe4a9, #d1fdff); } 
+    .release-engineer { background: linear-gradient(to right, #facaec, #b7ccf0); } 
+    .developer { background: linear-gradient(to right, #c5b3f5, #bee8ee); }
+    
+    .role:hover,
+    .note:hover {
+      transform: scale(1.01);
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.1);
+    }
+    td > p {
+      margin: 0;
+    }
+    td > p::before {
+      content: "• ";
+      color: #34495e;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 20px white; }
+      to { text-shadow: 0 0 10px #00000000; }
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+      table, th, td {
+        font-size: 0.9em;
+      }
+      .role-card {
+        flex-wrap: wrap;
+      }
+      .role-card img {
+        width: 48px;
+        height: 48px;
+      }
+      h1 {
+        font-size: 2em;
+      }
+    }
+ </style>
+   <div class="row">
+      <div class="tile content-wrapper">
+        <h1 style="background: linear-gradient(#74b9ff, #a29bfe); color:#2d3436; padding:12px; border-radius:6px;">
+         Roles and Responsibilities
+        </h1>
+        <div class="note">
+          The team consists of four key roles, each accompanied by a clear overview of their responsibilities and associated functions, as outlined below.
+        </div>
+        <div class="table-responsive">
+        <table class=content-wrapper>
+          <tr>
+            <th style="text-align: center;">Sno</th>
+            <th style="text-align: center;">Role</th>
+            <th style="text-align: center;">Responsibilities</th>
+          </tr>
+          {% for role in roles %}
+          <tr class="role {{ role.name|slugify }}">
+            <td style="text-align: center;">{{ role.id }}</td>
+            <td>
+              <div class="role-card">
+                <img src="{% static 'images/Role/' %}{{ role.name|slugify }}.jpg" alt="">
+                <strong>{{ role.name }}</strong>
+              </div>
+            </td>
+            <td>{{ role.description|linebreaks }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}

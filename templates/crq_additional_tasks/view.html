@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Task Name</th>
+                <th>Summary</th>
+                <th>Assignee</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in tasks %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'crq_additional_tasks:edit' task.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'crq_additional_tasks:delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ task.task_name }}</td>
+                <td>{{ task.summary }}</td>
+                <td>{{ task.assignee }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

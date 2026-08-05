@@ -1,0 +1,25 @@
+/* Custom overrides and small component styles */
+
+.error-badge {
+  background: #f8d7da;
+  color: #842029;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Field error highlighting (optional) */
+.input-error, .input-error:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.1rem rgba(220,53,69,.25);
+}
+
+.login-content .login-box.forgot-password-box {
+  min-height: 450px !important;
+}
+.login-content .login-box.forgot-password-box .reset-link-section {
+  min-height: 350px !important;
+}

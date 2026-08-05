@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+                <form method="post" action="{% url 'Project:delete' project.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% if form.errors %}
+                        <div class="col-md-12">
+                            <div class="alert alert-danger">
+                                <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <input type="hidden" name="delete_Project_id" value="{{ project.id }}">
+                        <p>Are you sure you want to delete the project "<b>{{ project.name }}</b>"?</p>
+                        <br><br>
+                        {{ form.as_p }}
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-end">
+                          <div class="form-group">
+                              <button class="btn btn-danger" type="submit">Delete</button>
+                              <a href="{% url 'Project:view' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("Project Delete page script loaded.");
+</script>
+{% endblock %}

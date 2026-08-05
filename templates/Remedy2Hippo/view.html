@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="Message">
+                    <div id="alertMessage" role="alert" >
+                        <h4></h4>
+                        <p></p>
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Change Number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for change in change_details %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ change.change_number }}</td>
+                            <td>
+                                <button class="btn btn-primary update-remedy-details" data-id="{{ change.change_number }}">Update Remedy details</button>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        function set_message(type,title,message){
+                $('#alertMessage').removeClass('alert alert-danger alert-success');
+            if(type=='success'){
+                $('#alertMessage').addClass('alert alert-success');
+            } else if(type=='error'){
+                $('#alertMessage').addClass('alert alert-danger');
+            }
+            $('#alertMessage h4').text(title);
+            $('#alertMessage p').text(message);
+            setTimeout(function() {
+                clear_message();
+                window.location.reload();
+            }, 10000); // Hide the alert message after 30 seconds
+        }
+        function clear_message(){
+            $('#alertMessage').removeClass('alert alert-danger alert-success');
+            $('#alertMessage h4').text('');
+            $('#alertMessage p').text('');
+        }
+        function callApi(changeId) {
+            $.ajax({
+                url: "{% url 'Remedy2Hippo:callapi' %}",
+                type: "POST",
+                data: {
+                    'change_id': changeId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }
+            })
+            .done(function(response) {
+                // Handle the response from the server
+                if (response.error){
+                    set_message('error', 'Error!', response.status+':'+response.error);
+                } else {
+                    set_message('success', 'Success!', response.message);
+                }
+            })
+            .fail(function(xhr, status, error) {
+                // Handle any errors that occurred during the AJAX request
+                set_message('error', xhr.status +": "+ error, xhr.responseJSON.error);
+            });
+        }
+        $('.table').DataTable({
+            destroy: true,
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            pageLength: 5,
+            lengthMenu: [[5, 10, 25, -1], [5, 10, 25, "All"]],
+            buttons:[]
+          });
+        $('table .update-remedy-details').on('click', function() {
+            var changeId = $(this).data('id');
+            //alert('Updating Remedy details for Change ID: ' + changeId);
+            callApi(changeId);
+        });
+    });
+</script>
+{% endblock %}

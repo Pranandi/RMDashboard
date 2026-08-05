@@ -1,0 +1,13 @@
+{% extends 'top.html' %}
+
+{% block content %}
+<div class="page-error tile">
+    <h1 class="text-warning"><i class="bi bi-exclamation-triangle"></i> Project Not Found</h1>
+    <p>The requested project version does not exist.</p>
+    <p>Please select a valid project from the list.</p>
+    <p>
+        <a class="btn btn-primary" href="{% url 'project' %}">View Projects</a>
+        <a class="btn btn-secondary" href="javascript:window.history.back();">Go Back</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>  
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <th>Actions</th>
+                      {% endif %}
+                      <th>#</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Designation</th>
+                      <th>CUID</th>
+                      <th>Employee Code</th>
+                      <th>Hired Date</th>
+                      <th>Manager</th>
+                      <th>Role</th>
+                      <th>Location</th>
+                      <th>Active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for d in employees %}
+                    <tr>
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <td>
+                        {% if request.session.can_edit %}
+                        <a href="{% url 'Employee:edit' d.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        {% endif %}
+                        {% if request.session.can_delete %}
+                          <a href="{% url 'Employee:delete' d.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+                      </td>
+                      {% endif %}
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ d.first_name }}</td>
+                      <td>{{ d.last_name }}</td>
+                      <td>{{ d.email }}</td>
+                      <td>{{ d.phone }}</td>
+                      <td>{{ d.designation }}</td>
+                      <td>{{ d.cuid }}</td>
+                      <td>{{ d.employee_code }}</td>
+                      <td>{{ d.hired_date }}</td>
+                      <td>{% if d.manager_name %}{{ d.manager_name.first_name }} {{ d.manager_name.last_name }}{% else %}-{% endif %}</td>
+                      <td>{{ d.role.name }}</td>
+                      <td>{{ d.location.name }}</td>
+                      <td>{% if d.is_active %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

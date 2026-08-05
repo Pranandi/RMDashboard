@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+
+                <form method="post" action="{% url 'task_information:edit' id %}">
+                    {% csrf_token %}
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Change Number:</strong> {{ change_detail_info.0.change_number }}</p>
+                            <p><strong>Change Title:</strong> {{ change_detail_info.0.title }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p><strong>Project Type:</strong> {{ change_detail_info.0.project_type }}</p>
+                            <p><strong>Company Name:</strong> {{ change_detail_info.0.company_name }}</p>
+                        </div>
+                    </div>
+                    {% for task in task_information %}
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-3">
+                            <label for="id_name" class="form-label fw-semibold">Server Name</label>
+                            <input type="text" class="form-control" id="server_name_{{ forloop.counter }}" name="server_name[]" value="{{ task.server_name }}" readonly>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_name" class="form-label fw-semibold">Manual Status</label>
+                            <select class="form-control" id="manual_status_{{ forloop.counter }}" name="manual_status[]">
+                                <option value="{{ task.task_id }}||Unknown" {% if task.manual_status == "Unknown" %}selected{% endif %}>Unknown</option>
+                                <option value="{{ task.task_id }}||Success" {% if task.manual_status == "Success" %}selected{% endif %}>Success</option>
+                                <option value="{{ task.task_id }}||Failed" {% if task.manual_status == "Failed" %}selected{% endif %}>Failed</option>
+                                <option value="{{ task.task_id }}||Warning" {% if task.manual_status == "Warning" %}selected{% endif %}>Warning</option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            Update
+                        </button>
+                        <a href="{% url 'task_information:view' %}"
+                           class="btn btn-secondary ms-2">
+                            Cancel
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("Change Details Edit page loaded");
+</script>
+{% endblock %}
+```

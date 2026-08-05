@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit %}
+                  <th class="text-center">Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Change Number</th>
+                <th>Company Name</th>
+                <th>Server Name(Manual Status)</th>
+                <th>Count of servers</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for id, tasks in task_information.items %}
+              <tr>
+                {% if request.session.can_edit %}
+                <td class="text-center">
+                  <a href="{% url 'task_information:edit' id %}"
+                     class="btn btn-primary btn-sm">
+                    Edit
+                  </a>
+                </td>
+                {% endif %}
+
+                <td>{{ forloop.counter }}</td>
+                <td>{{ tasks.change_number }}</td>
+                <td>{{ tasks.company_name }}</td>
+                <td>{{ tasks.server_name|safe }}</td>
+                <td>{{ tasks.count }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

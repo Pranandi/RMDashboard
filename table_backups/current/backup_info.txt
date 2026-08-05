@@ -1,0 +1,40 @@
+In-Place Backup - 2026-08-05 09:27:43
+Changed Tables:
+  - change_details
+  - task_information
+
+Unchanged Tables (32):
+  - accesscontrol_employee
+  - accesscontrol_role
+  - aip_data
+  - auth_group
+  - auth_group_permissions
+  - auth_permission
+  - auth_user
+  - auth_user_groups
+  - auth_user_user_permissions
+  - clients
+  - contact_us
+  - coordination_and_execution_escalations
+  - coordination_and_execution_escalations_employees
+  - crq_additional_tasks
+  - crq_client_approval
+  - crq_coordination
+  - crq_properties
+  - customers
+  - dc_region
+  - django_admin_log
+  - django_content_type
+  - django_migrations
+  - django_session
+  - employees
+  - locations
+  - projects
+  - roles
+  - server_details
+  - timezone_table
+  - uploader_projects
+  - uploader_variants
+  - versions
+
+Previous Recorded Backup: table_backups/current

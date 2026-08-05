@@ -1,0 +1,194 @@
+{% extends 'top.html' %}
+
+{% block content %}
+    <style>
+        h1 {
+            color: #0056b3;
+        }
+        .main, .summary, .Purpose, .key, .success, .troubleshooting {
+            margin-bottom: 15px;
+        }
+        h2,h3 {
+            color: #004080;
+        }
+        .tile ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .tile a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .tile a:hover {
+            text-decoration: underline;
+        }
+        table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    th {
+      background: linear-gradient(135deg, #1a73e8 0%, #1557c0 100%);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95em;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e8eef5;
+      font-size: 0.95em;
+      color: #2c3e50;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f0f5ff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    </style>
+<div class="row">
+    <div class="tile content-wrapper main">
+        <h2>Server Patch Management: Ensuring Security, Compliance, and Threat Mitigation</h2>
+    </div>
+    <div class="tile content-wrapper summary">
+        <h2>Summary</h2>
+        <p>Comprehensive OS Patch Management Procedure: Automated and Manual Steps with Pre-Checks, Post-Checks, Troubleshooting, and Fallback Strategies.</p>
+    </div>
+    <div class="tile content-wrapper Purpose">
+        <h2>Purpose</h2>
+        <p><ul>
+            <li>server patching is critical for maintaining a secure, stable, and compliant IT environment.</li>
+            <li>Patches fix vulnerabilities in operating systems, applications, and firmware.</li>
+            <li>Reduces risk of data breaches and unauthorized access..</li>
+            <li>Improves overall performance and reliability of servers.</li>
+	    <li>Reduces exposure to zero-day vulnerabilities.</li>
+        </ul></p>
+	</div>
+    <div class="tile content-wrapper key">
+        <h2>Key Procedures</h2>
+        <p><ul>
+                <li>Validation: Servers are part of patching must pass initial health checks before automation runs.</li>
+                <li>Automation: Zero-touch and fully automated methods available via Hippo/HPSA dashboards.</li>
+                <li>Pre-Checks: Scripts verify and collect Server OS Version,IP Configurations, Installed Apps, DBA, services, Route print details and etc.</li>
+                <li>Installation: Automated or manual installation of latest released patches for Applicable OS versions.</li>
+                <li>Post-Checks: Scripts confirm successful installation, up time,comparing with Pre-checks and fix any related issues.</li>
+                <li>Manual Method: Used if automation fails to install connect the server and proceed with Manual method patching.</li>
+        </ul></p>
+    </div>
+	<div class="tile content-wrapper key">
+	<h2>Automated Deployment</h2>
+        <p><ul>
+                <li>Use HIPPO and HPSA tools for automated deployment across infrastructure.</li>
+                <li>Validate OS compatibility before executing automation scripts.</li>
+                <li>Ensure network connectivity and service availability prior to deployment.</li>
+                <li>Installation: Automated or manual installation of latest released patches for Applicable OS versions.</li>
+                <li>Review comprehensive logs post-installation to confirm successful upgrade.</li>
+        </ul></p>
+    </div>
+	<div class="tile content-wrapper key">
+	    <h2>Semi-Automated Deployment</h2>
+        <p><ul>
+                <li>Execute automation scripts for bulk installation across multiple servers.</li>
+                <li>Manually verify critical applications (Oracle, SQL, Veritas, Red Hat & Window's clusters).</li>
+                <li>Coordinate with respective teams to perform failover & App Stop.</li>
+                <li>Act accordingly upon Semi automation method end codes.</li>
+        </ul></p>
+
+      <table>
+        <thead
+          <tr>
+            <th>HPSA Script Type</th>
+            <th>WIndows OS Script</th>
+            <th>RHEL OS Script</th>
+	        <th>Parameters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pre-Checks</td>
+            <td>GOC RM CheckServer</td>
+            <td>HIERM- Linux CheckServer</td>
+            <td><code>-pre -CRQ CRQXXXXXX -force</code></td>
+          </tr>
+          <tr>
+            <td>Patch Installation</td>
+            <td>HIERM Install WSUS Updates</td>
+            <td>HIERM- Linux Update</td>
+            <td>"<code>-mode patch</code>" for Windows & "<code>-mode patch -Kernel</code>" for RHEL</td>
+          </tr>
+          <tr>
+            <td>Server Reboot</td>
+            <td>Force-Reboot</td>
+            <td>RM Linux Reboot - RHEL 7,8,& 9</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Pending Patch Check</td>
+            <td>HIERM-Check for Pending WSUS Updates</td>
+            <td>HIERM- Linux Update</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Post-Checks</td>
+            <td>GOC RM CheckServer</td>
+            <td>HIERM- Linux CheckServer</td>
+            <td><code>-post -CRQ CRQXXXXXX -force</code></td>
+          </tr>
+        </tbody>
+        </table>
+    </div>
+    <div class="tile content-wrapper key">
+	    <h2>Manual Deployment</h2>
+        <p>
+            <ul>
+                <li></strong>For Window's Servers</strong> --> Connect the servers and install the latest updates via Window's update or Install the updates via Pre-copied updates.</li>
+                <li></strong>For RHEL Servers</strong> --> Connect the servers and install the latest updates via installation commands.</li>
+                <li>Perform comprehensive pre- and post-maintenance verification checks.</li>
+            </ul>
+        </p>
+    </div>
+    <div class="tile content-wrapper success">
+        <h2>Success Criteria</h2>
+        <p>
+            <ul>
+                <li>Latest release patch instlled n servers.</li>
+              	<li>Servers are rebooted and there are no pending updates on server to install.</li>
+             	<li>Server reachability.</li>
+              	<li>Pre- checks and Post-Checks are identical.</li>
+            </ul>
+        </p>
+    </div>
+    <div class="tile content-wrapper troubleshooting">
+        <h2>Troubleshooting</h2>
+        <p>
+            <ul>
+                <li>During Execution servers are not reachable from Automation Tool.</li>
+              	<li>Server is not reachable from Semi-Automation Method(HPSA).</li>
+             	<li>Patch installation failures.</li>
+              	<li>Server is not online & reachable post reboot.</li>
+		        <li>Patch revert issues.</li>
+            </ul>
+        </p>
+    </div>
+    <div class="tile content-wrapper moplink">
+        <h3>MOP Link</h3>
+        <p><a href="https://lumen-nm.atlassian.net/wiki/x/0IYKBQ" target="_blank">HIERM-PS Automated Patching - WSUS and RHN patching MOP</a></p>
+    </div>
+</div>
+{% endblock %}

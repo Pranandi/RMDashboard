@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Batch</th>
+                <th>Server</th>
+                <th>Operating System</th>
+                <th>Application</th>
+                <th>Environment</th>
+                <th>Server Type</th>
+                <th>Notes</th>
+                <th>Include</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in servers %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'server_details:edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'server_details:delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.batch }}</td>
+                <td>{{ item.server }}</td>
+                <td>{{ item.operating_system }}</td>
+                <td>{{ item.application }}</td>
+                <td>{{ item.environment }}</td>
+                <td>{{ item.server_type }}</td>
+                <td>{{ item.notes }}</td>
+                <td>{{ item.include|yesno:"Yes,No" }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{# Styling moved to custom.css #}
+ <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+                <form method="post" action="{% url 'AccessControl_Role:edit' id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        {# Custom field rendering to highlight errors without list formatting #}
+                        {% if form.non_field_errors %}
+                        <div class="col-12">
+                            {% for error in form.non_field_errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="col-md-6 mb-3">
+                            <label for="id_role" class="form-label fw-semibold">{{ form.role.label }}</label>
+                            {{ form.role }}
+                            {% for error in form.role.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_app_name" class="form-label fw-semibold">{{ form.app_name.label }}</label>
+                            {{ form.app_name }}
+                            {% for error in form.app_name.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-semibold">{{ form.can_view.label }}</label>
+                            {{ form.can_view }}
+                            {% for error in form.can_view.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-semibold">{{ form.can_add.label }}</label>
+                            {{ form.can_add }}
+                            {% for error in form.can_add.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-semibold">{{ form.can_edit.label }}</label>
+                            {{ form.can_edit }}
+                            {% for error in form.can_edit.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-semibold">{{ form.can_delete.label }}</label>
+                            {{ form.can_delete }}
+                            {% for error in form.can_delete.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label fw-semibold">{{ form.can_export.label }}</label>
+                            {{ form.can_export }}
+                            {% for error in form.can_export.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 text-end">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-save2"></i> Save</button>
+                            <a href="{% url 'AccessControl_Role:view' %}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("AccessControl_Role Add page script loaded.");
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Template ID</th>
+                <th>Last Updated</th>
+                <th>Created</th>
+                <th>Project</th>
+                <th>Variant Name</th>
+                <th>Variant Description</th>
+                <th>Default Variant</th>
+                <th>Active</th>
+                <th>Impacting</th>
+                <th>MOP</th>
+                <th>Team Name</th>
+                <th>Team Description</th>
+                <th>Variant</th>
+                <th>Default Project Variant</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'uploader_variants:edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'uploader_variants:delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.template_id }}</td>
+                <td>{{ item.last_updated }}</td>
+                <td>{{ item.created }}</td>
+                <td>{{ item.project }}</td>
+                <td>{{ item.variant_name }}</td>
+                <td>{{ item.variant_description }}</td>
+                <td>{{ item.default_variant }}</td>
+                <td>{{ item.active }}</td>
+                <td>{{ item.impacting }}</td>
+                <td>{{ item.mop }}</td>
+                <td>{{ item.team_name }}</td>
+                <td>{{ item.team_description }}</td>
+                <td>{{ item.variant }}</td>
+                <td>{{ item.default_project_variant }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="16" class="text-center">No records found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

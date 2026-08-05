@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Template ID</th>
+                <th>Project ID</th>
+                <th>Project Title</th>
+                <th>Project</th>
+                <th>Change Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'uploader_projects:edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'uploader_projects:delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.template_id }}</td>
+                <td>{{ item.project_id }}</td>
+                <td>{{ item.project_title }}</td>
+                <td>{{ item.project }}</td>
+                <td>{{ item.change_title }}</td>
+              </tr>
+             
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

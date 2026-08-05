@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{# Styling moved to custom.css #}
+ <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+                <form method="post" action="{% url 'clients:edit' id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        {# Rely on per-field errors rendered by form.as_p to avoid duplication #}
+                        <input type="hidden" name="id" value="{{ id }}">
+                        {% if form.non_field_errors %}
+                        <div class="col-12">
+                            {% for error in form.non_field_errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="col-md-4 mb-3">
+                            <label for="id_client_name" class="form-label fw-semibold">{{ form.client_name.label }}</label>
+                            {{ form.client_name }}
+                            {% for error in form.client_name.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_vantive_name" class="form-label fw-semibold">{{ form.vantive_name.label }}</label>
+                            {{ form.vantive_name }}
+                            {% for error in form.vantive_name.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_site_id" class="form-label fw-semibold">{{ form.site_id.label }}</label>
+                            {{ form.site_id }}
+                            {% for error in form.site_id.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_advanced_essential" class="form-label fw-semibold">{{ form.advanced_essential.label }}</label>
+                            {{ form.advanced_essential }}
+                            {% for error in form.advanced_essential.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_start_week" class="form-label fw-semibold">{{ form.start_week.label }}</label>
+                            {{ form.start_week }}
+                            {% for error in form.start_week.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_start_day" class="form-label fw-semibold">{{ form.start_day.label }}</label>
+                            {{ form.start_day }}
+                            {% for error in form.start_day.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_specific_date" class="form-label fw-semibold">{{ form.specific_date.label }}</label>
+                            {{ form.specific_date }}
+                            {% for error in form.specific_date.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_frequency" class="form-label fw-semibold">{{ form.frequency.label }}</label>
+                            {{ form.frequency }}
+                            {% for error in form.frequency.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_add_month" class="form-label fw-semibold">{{ form.add_month.label }}</label>
+                            {{ form.add_month }}
+                            {% for error in form.add_month.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_ask_for_approval_in_email" class="form-label fw-semibold">{{ form.ask_for_approval_in_email.label }}</label>
+                            {{ form.ask_for_approval_in_email }}
+                            {% for error in form.ask_for_approval_in_email.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_notes" class="form-label fw-semibold">{{ form.notes.label }}</label>
+                            {{ form.notes }}
+                            {% for error in form.notes.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_email_greeting" class="form-label fw-semibold">{{ form.email_greeting.label }}</label>
+                            {{ form.email_greeting }}
+                            {% for error in form.email_greeting.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_email_to" class="form-label fw-semibold">{{ form.email_to.label }}</label>
+                            {{ form.email_to }}
+                            {% for error in form.email_to.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_email_cc" class="form-label fw-semibold">{{ form.email_cc.label }}</label>
+                            {{ form.email_cc }}
+                            {% for error in form.email_cc.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_email_bcc" class="form-label fw-semibold">{{ form.email_bcc.label }}</label>
+                            {{ form.email_bcc }}
+                            {% for error in form.email_bcc.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-12 mb-6">
+                            <label for="id_is_active" class="form-label fw-semibold">{{ form.is_active.label }}</label>
+                            {{ form.is_active }}
+                            {% for error in form.is_active.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-end">
+                          <div class="form-group">
+                              <button class="btn btn-primary" type="submit">Update</button>
+                              <a href="{% url 'clients:view' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("Customer Edit page script loaded.");
+</script>
+{% endblock %}

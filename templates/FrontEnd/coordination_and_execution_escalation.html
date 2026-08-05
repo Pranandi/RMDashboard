@@ -1,0 +1,137 @@
+{% extends 'top.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="tile content-wrapper">
+			<style>
+        
+          h1, h2 {
+            color: #004080;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+          }
+          table, th, td {
+            border: 1px solid #ccc;
+          }
+          th {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+          }
+          td {
+            padding: 10px;
+          }
+          .content-wrapper a {
+            color: #004080;
+            text-decoration: none;
+          }
+          .content-wrapper a:hover {
+            text-decoration: underline;
+          }
+          .note {
+            background-color: #e6f2ff;
+            padding: 10px;
+            border-left: 4px solid #004080;
+            margin-bottom: 20px;
+          }
+          /* Color-coded urgency levels */
+          .level-1 { background-color: #d9fdd3; } /* green */
+          .level-2 { background-color: #fff3cd; } /* yellow */
+          .level-3 { background-color: #ffe5b4; } /* orange */
+          .level-4 { background-color: #f8d7da; } /* red */
+				</style>
+      <h1>Escalation Matrix</h1>
+			<div class="note">
+				First try to contact the <a href="{% url 'employee' %}">Engineer or Release Manager</a> involved if the escalation relates to either a change to be scheduled or a change in execution. Details are available in the <a href="http://directory.corp.intranet/emd/search.html" target="_blank">corporate directory</a>.
+			</div>
+      <table>
+        <tr>
+          <th>Level</th>
+          <th>Description</th>
+          <th>Location</th>
+          <th>Name</th>
+          <th>Contact</th>
+        </tr>
+       
+        {% for escalation in escalations %}
+        <tr class="level-{{ escalation.level }}">
+          <td rowspan="{{ escalation.employees.count }}">{{ escalation.level }}{% if escalation.level == 1 %}st{% elif escalation.level == 2 %}nd{% elif escalation.level == 3 %}rd{% else %}th{% endif %}</td>
+          <td rowspan="{{ escalation.employees.count }}">{{ escalation.description }}</td>
+          <td rowspan="{{ escalation.employees.count }}">{{ escalation.location }}</td>
+          {% for name in escalation.employees.all %}
+            {% if forloop.counter != 1 %}
+          <tr class="level-{{ escalation.level }}">
+            {% endif %}
+          <td>{{ name.first_name }} {{ name.last_name }}</td>
+          <td>
+              {% with types_str=escalation.contact_type %}
+                {% if "Email" in types_str and "Phone" in types_str and "Teams" in types_str %}
+                  {% if name.email %}<a href="mailto:{{ name.email }}">Email</a>{% endif %}
+                  {% if name.email %} / <a href="https://teams.microsoft.com/l/chat/0/0?users={{ name.email }}" target="_blank">Teams</a> {% endif %}
+                  {% if name.phone %} / {{ name.phone }} {% endif %}
+                {% elif "Email" in types_str and "Teams" in types_str %}
+                   {% if name.email %}<a href="mailto:{{ name.email }}">Email</a>{% endif %}
+                  {% if name.email %} / <a href="https://teams.microsoft.com/l/chat/0/0?users={{ name.email }}" target="_blank">Teams</a> {% endif %}
+                {% elif "Email" in types_str and "Phone" in types_str %}
+                  {% if name.email %}<a href="mailto:{{ name.email }}">Email</a>{% endif %}
+                  {% if name.phone %} / {{ name.phone }} {% endif %}
+                {% elif "Teams" in types_str and "Phone" in types_str %}
+                  {% if name.email %} / <a href="https://teams.microsoft.com/l/chat/0/0?users={{ name.email }}" target="_blank">Teams</a> {% endif %}
+                  {% if name.phone %} / {{ name.phone }} {% endif %}
+                {% elif "Email" in types_str %}
+                  {% if name.email %}<a href="mailto:{{ name.email }}">Email</a>{% endif %}
+                {% elif "Phone" in types_str %}
+                  {% if name.phone %}{{ name.phone }}{% endif %}
+                {% elif "Teams" in types_str %}
+                  {% if name.email %}<a href="https://teams.microsoft.com/l/chat/0/0?users={{ name.email }}" target="_blank">Teams</a>{% endif %}
+                {% else %}
+                  {{ name.contact_info|default_if_none:'' }}
+                {% endif %}
+              {% endwith %}
+          </td>
+            {% if forloop.counter != escalation.employees.count %}
+          </tr>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+
+      <h2>HIPPO Components & Dependencies Escalation</h2>
+      <table>
+        <tr>
+          <th>Component</th>
+          <th>Escalation Workgroup</th>
+          <th>Contact</th>
+        </tr>
+        <tr>
+          <td>HIPPO-Dashboard, HIPPO-SECURITY, JOBQUEUE, KONG, PROMETHEUS, REDIS, SAIM, SCRIPT-LIBRARY, SOCKET-SERVER, ZERO-TOUCH, HPSA AUTOMATION VIP</td>
+          <td>Managed Services Tools Application</td>
+          <td><a href="https://lumen-nm.atlassian.net/wiki/x/YgCBCw" target="_blank">Escalation Details</a></td>
+        </tr>
+        <tr>
+          <td>OCEANS API</td>
+          <td>TicketingCMDB_Hosting</td>
+          <td><a href="mailto:LLFTServiceSupport@centurylink.com">LLFTServiceSupport@centurylink.com</a></td>
+        </tr>
+        <tr>
+          <td>Patching Related scripts and HIPPO-Projects related queries</td>
+          <td>Ramesh V</td>
+          <td><a href="mailto:Ramesh.V@lumen.com">Ramesh.V@lumen.com</a></td>
+        </tr>
+      </table>
+
+      <h2>HIPPO Enhancements</h2>
+      <p>Please submit enhancements, feature and functionality requests to <a href="https://hedwig.it.savvis.net/" target="_blank">Hedwig</a>.</p>
+      <p>After clicking "Get Started" at the link, select Team "HIPPO" and then complete and submit the form to generate a story for the HIPPO team.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <th>Actions</th>
+                      {% endif %}
+                      <th>#</th>
+                      <th>Employee Name</th>
+                      <th>Title</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Alternative Phone</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for c in contactus %}
+                    <tr>
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <td>
+                        {% if request.session.can_edit %}
+                        <a href="{% url 'ContactUs:edit' c.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        {% endif %}
+                        {% if request.session.can_delete %}
+                        <a href="{% url 'ContactUs:delete' c.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+                      </td>
+                      {% endif %}
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ c.name }}</td>
+                      <td>{{ c.title }}</td>
+                      <td>{{ c.email }}</td>
+                      <td>{{ c.phone }}</td>
+                      <td>{{ c.alternative_phone }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

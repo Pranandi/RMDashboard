@@ -1,0 +1,74 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+
+                <form method="post" action="{% url 'changedetails:edit' id %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <p><strong>Change Number:</strong> {{ Change_Detail.0.change_number }}</p>
+                        <p><strong>Change Title:</strong> {{ Change_Detail.0.title }}</p>
+                        <p><strong>Project Type:</strong> {{ Change_Detail.0.project_type }}</p>
+                        <p><strong>Company Name:</strong> {{ Change_Detail.0.company_name }}</p>
+
+                        <div class="form-group">
+                            <label for="final_status">
+                                <strong>Final Status:</strong>
+                            </label>
+
+                            <select class="form-control" id="final_status" name="final_status">
+                                <option value="Unknown"
+                                    {% if Change_Detail.0.final_status == "Unknown" %}selected{% endif %}>
+                                    Unknown
+                                </option>
+
+                                <option value="Success"
+                                    {% if Change_Detail.0.final_status == "Success" %}selected{% endif %}>
+                                    Success
+                                </option>
+
+                                <option value="Failed"
+                                    {% if Change_Detail.0.final_status == "Failed" %}selected{% endif %}>
+                                    Failed
+                                </option>
+
+                                <option value="Partial"
+                                    {% if Change_Detail.0.final_status == "Partial" %}selected{% endif %}>
+                                    Partial
+                                </option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-primary">
+                                    Update
+                                </button>
+
+                                <a href="{% url 'changedetails:view' %}"
+                                   class="btn btn-secondary">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("Version Edit page script loaded.");
+</script>
+{% endblock %}

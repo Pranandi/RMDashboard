@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <form method="post" action="{% url 'crq_properties:edit' id %}">
+          {% csrf_token %}
+          <div class="row">
+            {% if form.non_field_errors %}
+            <div class="col-12">
+              {% for error in form.non_field_errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="col-md-3 mb-3">
+              <label for="id_is_impacting" class="form-label fw-semibold">{{ form.is_impacting.label }}</label>
+              {{ form.is_impacting }}
+              {% for error in form.is_impacting.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_change_type" class="form-label fw-semibold">{{ form.change_type.label }}</label>
+              {{ form.change_type }}
+              {% for error in form.change_type.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_manager_group" class="form-label fw-semibold">{{ form.manager_group.label }}</label>
+              {{ form.manager_group }}
+              {% for error in form.manager_group.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_class1" class="form-label fw-semibold">{{ form.class1.label }}</label>
+              {{ form.class1 }}
+              {% for error in form.class1.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_impact" class="form-label fw-semibold">{{ form.impact.label }}</label>
+              {{ form.impact }}
+              {% for error in form.impact.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_urgency" class="form-label fw-semibold">{{ form.urgency.label }}</label>
+              {{ form.urgency }}
+              {% for error in form.urgency.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_risk_level" class="form-label fw-semibold">{{ form.risk_level.label }}</label>
+              {{ form.risk_level }}
+              {% for error in form.risk_level.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="id_estimated_outage_duration" class="form-label fw-semibold">{{ form.estimated_outage_duration.label }}</label>
+              {{ form.estimated_outage_duration }}
+              {% for error in form.estimated_outage_duration.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_operational_categorization_1" class="form-label fw-semibold">{{ form.operational_categorization_1.label }}</label>
+              {{ form.operational_categorization_1 }}
+              {% for error in form.operational_categorization_1.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_operational_categorization_2" class="form-label fw-semibold">{{ form.operational_categorization_2.label }}</label>
+              {{ form.operational_categorization_2 }}
+              {% for error in form.operational_categorization_2.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="id_service_impact_assessment_work_info" class="form-label fw-semibold">{{ form.service_impact_assessment_work_info.label }}</label>
+              {{ form.service_impact_assessment_work_info }}
+              {% for error in form.service_impact_assessment_work_info.errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="col-md-12 text-end">
+              <button type="submit" class="btn btn-primary">Update</button>
+              <a href="{% url 'crq_properties:view' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

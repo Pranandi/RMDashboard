@@ -1,0 +1,407 @@
+{% extends 'top.html' %}
+{% block content %}
+   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: auto;
+      margin: 0 auto;
+    }
+
+   
+    h1 {
+      text-align: center;
+      color: #1a73e8;
+      font-size: 2.8em;
+      margin-bottom: 12px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.05em;
+      margin-bottom: 45px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    th {
+      background: linear-gradient(135deg, #1a73e8 0%, #1557c0 100%);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95em;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e8eef5;
+      font-size: 0.95em;
+      color: #2c3e50;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f0f5ff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    
+    .note-box {
+      background: white;
+      padding: 22px;
+      border-left: 5px solid #1a73e8;
+      border-radius: 8px;
+      margin: 30px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 0.95em;
+      line-height: 1.7;
+    }
+
+    .note-box strong {
+      color: #1a73e8;
+      font-weight: 600;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .warning-box {
+      background: #fffacd;
+      padding: 20px;
+      border-left: 5px solid #ffc107;
+      border-radius: 8px;
+      margin: 25px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 0.95em;
+      line-height: 1.7;
+    }
+
+    .warning-box strong {
+      color: #856404;
+      font-weight: 600;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    
+    section {
+      background: white;
+      border: none;
+      border-radius: 10px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    section:hover {
+      box-shadow: 0 10px 24px rgba(26, 115, 232, 0.18);
+      transform: translateY(-3px);
+    }
+
+    h2 {
+      color: #1a73e8;
+      font-size: 1.6em;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      border-bottom: 2px solid #f0f5ff;
+      padding-bottom: 12px;
+    }
+
+    
+    .container ul, ol {
+      margin: 0;
+      padding-left: 28px;
+      margin-bottom: 20px;
+    }
+
+    .container li {
+      margin: 14px 0;
+      line-height: 1.7;
+      color: #2c3e50;
+      font-size: 0.95em;
+    }
+
+    .container li strong {
+      color: #1a73e8;
+      font-weight: 600;
+    }
+
+   
+    .container a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .container a:hover {
+      color: #0c5fd0;
+      border-bottom-color: #1a73e8;
+    }
+
+    
+    .edit-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #1a73e8 0%, #1557c0 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9em;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .edit-btn:hover {
+      box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .top-right {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    
+    p {
+      line-height: 1.8;
+      margin-bottom: 18px;
+      color: #2c3e50;
+    }
+
+    section p {
+      margin-bottom: 16px;
+    }
+
+   
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8em;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 0.95em;
+        margin-bottom: 30px;
+      }
+
+      table {
+        font-size: 0.85em;
+        margin: 20px 0;
+      }
+
+      th, td {
+        padding: 12px;
+      }
+
+      section {
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      h2 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+      }
+
+      .container ul {
+        padding-left: 20px;
+      }
+
+      .container li {
+        margin: 10px 0;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <h1>NetBackup Upgrade Overview</h1>
+    <p class="subtitle">Quick reference overview for NetBackup client upgrade procedures and supported environments</p>
+
+    <table id="versionTable">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Windows Versions</th>
+          <th>RHEL Versions</th>
+          <th>Opsware Versions</th>
+          <th>NetBackup Versions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Windows 2008 R2 onwards</td>
+          <td>RHEL 7 onwards</td>
+          <td>Opsware 85.0.XXXXX.X</td>
+          <td>NetBackup Client 10</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Windows 2008</td>
+          <td>RHEL 6</td>
+          <td>Opsware 85.0.XXXXX.X</td>
+          <td>NetBackup 8.2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Windows 2003 (Not Supported)</td>
+          <td>RHEL 5 (Not Supported)</td>
+          <td>Not Supported</td>
+          <td>Not Supported</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>📋 Note:</strong> The upgrade version is determined by the master server version. If the master is 10.0.0, the client will be upgraded to 10.0.0; if the master is 8.2.0, the client will be upgraded to 8.2.0; if the master is 7.7.3, the client will be upgraded to 7.7.3.
+    </div>
+    <div class="warning-box">
+      <strong>⚠️ Important:</strong> For RHEL Servers, the Opsware Agent version should NOT be 85.0.94358.0. If any RHEL servers running with this version please update to latest Opsware Agent version. 
+    </div>
+
+    
+    <section>
+      <h2>Remedy Templates</h2>
+      <ul>
+        <li><strong style="color: #000;">HST - OS Patch/Agent Upgrade - HIERM - 55A - Z - NetBackup Client Upgrade Automation</strong> – Fully automated deployment with no special instructions required. Ideal for mass maintenance operations.</li>
+        <li><strong style="color: #000;">HST - OS Patch/Agent Upgrade - HIERM - 55A - NetBackup Client Upgrade</strong> – Use for customer changes with full automation capabilities. Supports servers with SAP, Oracle, or Sybase applications. Fully automated deployment option.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Upgrade Policies</h2>
+      <ul>
+        <li><strong style="color: #000;">Version 7.7.3:</strong> HIERM-55-Netbackup_7.7.3</li>
+        <li><strong style="color: #000;">Version 8.2.0:</strong> HIERM-55 NetBackup Client Upgrade</li>
+        <li><strong style="color: #000;">Version 10.0.0:</strong> HIERM-55 NetBackup Client Upgrade 10.0.0.1</li>
+      </ul>
+    </section>
+    
+    
+    <section>
+      <h2>Automated Deployment</h2>
+      <ul>
+        <li>Use HIPPO and HPSA tools for automated deployment across infrastructure</li>
+        <li>Validate OS compatibility before executing automation scripts</li>
+        <li>Ensure network connectivity and service availability prior to deployment</li>
+        <li>Review comprehensive logs post-installation to confirm successful upgrade</li>
+      </ul>
+    </section>
+    
+    
+    <section>
+      <h2>Semi-Automated Deployment</h2>
+      <ul>
+        <li>Execute automation scripts for bulk installation across multiple servers</li>
+        <li>Manually verify critical applications (Oracle, SQL, Veritas, Red Hat clusters)</li>
+        <li>Coordinate with database teams regarding failover procedures and service stoppage</li>
+        <li>Perform manual verification checks if partial failures occur during deployment</li>
+      </ul>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>NetBackup Version</th>
+            <th>Policy Name (Windows)</th>
+            <th>Policy Name (Linux)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for version,os in db.items %}
+          <tr>
+            <td>{{ version }}</td>
+            <td>{{ os.Windows.policy_name }}</td>
+            <td>{{ os.Linux.policy_name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </section>
+
+    
+    
+    <section>
+      <h2>Manual Deployment</h2>
+      <ul>
+        <li>Download the NetBackup Client installer from the designated repository</li>
+        <li>Stop relevant services before installation to prevent conflicts</li>
+        <li>Execute the installer manually on each individual server</li>
+        <li>Perform comprehensive pre- and post-maintenance verification checks</li>
+        <li>Resolve NetBackup configuration settings and certificate issues if encountered</li>
+      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>NetBackup Version</th>
+            <th>File Name (Windows)</th>
+            <th>File Name (Linux)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for version,os in db.items %}
+          <tr>
+            <td>{{ version }}</td>
+            <td><strong>File:</strong> {{ os.Windows.manual_file_name }}<br><strong>Location:</strong> <code>{{ os.Windows.manual_file_location }}</code></td>
+            <td><strong>File:</strong> {{ os.Linux.manual_file_name }}<br><strong>Location:</strong> <code>{{ os.Linux.manual_file_location }}</code></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    
+    
+    <section>
+      <h2>Additional Resources</h2>
+      <p>
+        For comprehensive technical documentation and detailed upgrade procedures, please refer to the 
+        <a href="https://lumen-nm.atlassian.net/wiki/x/0IgKBQ" target="_blank">
+          NetBackup Client Upgrades Documentation
+        </a>.
+      </p>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <th>Actions</th>
+                      {% endif %}
+                      <th>#</th>
+                      <th>Customer Name</th>
+                      <th>Contact Person Name</th>
+                      <th>Contact Person Email</th>
+                      <th>Contact Person Phone</th>
+                      <th>Confluence Page</th>
+                      <th>Customer Webpage</th>
+                      <th>Customer Logo</th>
+                       
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for c in customers %}
+                    <tr>
+                      {% if request.session.can_edit or request.session.can_delete %}
+                      <td>
+                        {% if request.session.can_edit %}
+                        <a href="{% url 'Customer:edit' c.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        {% endif %}
+                        {% if request.session.can_delete %}
+                        <a href="{% url 'Customer:delete' c.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+                      </td>
+                        {% endif %}
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ c.name }}</td>
+                      <td>{{ c.contact_person_name }}</td>
+                      <td>{{ c.contact_person_email }}</td>
+                      <td>{{ c.contact_person_phone }}</td>
+                      <td><a href="{{ c.confluence_page_link }}" target="_blank">View Page</a></td>
+                      <td>
+                        {% if c.customer_webpage %}
+                          <a href="{{ c.customer_webpage }}" target="_blank">Visit Page</a>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if c.customer_logo %}
+                          <img src="{{ c.customer_logo.url }}" alt="Customer Logo" style="max-width: 100px; max-height: 100px;">
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

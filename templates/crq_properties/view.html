@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Is Impacting</th>
+                <th>Change Type</th>
+                <th>Manager Group</th>
+                <th>Class</th>
+                <th>Impact</th>
+                <th>Urgency</th>
+                <th>Risk Level</th>
+                <th>Estimated Outage Duration</th>
+                <th>Operational Categorization 1</th>
+                <th>Operational Categorization 2</th>
+                <th>Service Impact Assessment Work Info</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'crq_properties:edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'crq_properties:delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.is_impacting }}</td>
+                <td>{{ item.change_type }}</td>
+                <td>{{ item.manager_group }}</td>
+                <td>{{ item.class_ }}</td>
+                <td>{{ item.impact }}</td>
+                <td>{{ item.urgency }}</td>
+                <td>{{ item.risk_level }}</td>
+                <td>{{ item.estimated_outage_duration }}</td>
+                <td>{{ item.operational_categorization_1 }}</td>
+                <td>{{ item.operational_categorization_2 }}</td>
+                <td>{{ item.service_impact_assessment_work_info }}</td>
+              </tr>
+              
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

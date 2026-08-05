@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Release Management Dashboard</title>
+    <!-- Main CSS-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.dataTables.min.css' %}">
+    
+  </head>
+  <style>
+    .app-menu {
+      margin-bottom: 25px;
+    }
+    .app-sidebar__user{
+      margin-bottom: 10px;
+      padding: 2px;
+    }
+    .app-menu__item {
+      padding: 10px; 
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e7e7e7;
+        z-index: 10;
+    }
+    .app-content {
+      padding: 15px;
+    }
+  </style>
+  <body class="app sidebar-mini">
+    <!-- Navbar-->
+    {% include 'top_menu.html' %}
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Image">
+        <div>
+          <p class="app-sidebar__user-name">
+            {% if request.session.first_name %}
+              {{ request.session.first_name }} {{ request.session.last_name }}
+            {% else %}
+              Guest
+            {% endif %}
+          </p>
+          <p class="app-sidebar__user-designation">
+            {% if request.session.rolename %}
+              {{ request.session.rolename }}
+            {% else %}
+              Not Logged In
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      {% include 'side_menu.html' %}
+    </aside>
+    <!-- Dynamic content will be injected here -->
+     <main class="app-content">
+    {% block content %}
+    
+    {% endblock %}
+     </main>
+   
+
+    <footer>
+        <div class="text-center py-2">© 2025 Copyright: Release Management Team@Lumen
+        </div>
+    </footer>
+    <script src="{% static 'js/jquery-3.7.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+     <!-- Data table plugin-->
+    <script type="text/javascript" src="{% static 'js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.buttons.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.buttons.html5.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.buttons.print.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+    {% with request.resolver_match as match %}
+  {% if match.namespace != 'Remedy2Hippo' %}
+    <script>
+      $(document).ready(function() {
+              // Dynamic page load for large data sets:
+              // Add data-server-side="true" and data-ajax-url="/your-endpoint/" to a table
+              // to enable DataTables server-side processing for that table only.
+              $('.table').each(function() {
+                var $table = $(this);
+                var isServerSide = String($table.data('server-side')).toLowerCase() === 'true';
+                var ajaxUrl = $table.data('ajax-url');
+
+                var options = {
+                  destroy: true,
+                  deferRender: true,
+                  processing: true,
+                  dom: "<'row'<'col-4'l><'col-4'B><'col-4'f>>" +
+                    "<'row'<'col-12'tr>>" +
+                    "<'row'<'col-5'i><'col-7'p>>",
+                  buttons: [
+                    {% if request.session.can_add %}
+                      {
+                        text : 'Add',
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = window.location.href + "add/";
+                        }
+                      },
+                    {% endif %}
+                      {
+                        text : 'Refresh',
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = window.location.href;
+                        }
+                      }
+                    {% if request.session.can_export %}
+                      ,{
+                        text : 'Export',
+                        action: function ( e, dt, node, config ) {
+                            window.open(window.location.href + "export/", "_blank");
+                        }
+                      }
+                    {% endif %}
+                  ],
+                  "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                  "pageLength": 10,
+                  "ordering": true,
+                  "searching": true,
+                  "responsive": true
+                };
+
+                if (isServerSide && ajaxUrl) {
+                  options.serverSide = true;
+                  options.ajax = {
+                    url: ajaxUrl,
+                    type: 'GET'
+                  };
+                }
+
+                $table.DataTable(options);
+              });
+      });
+  </script>
+  {% endif %}
+{% endwith %}
+  </body>
+</html>

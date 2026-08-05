@@ -1,0 +1,214 @@
+{% extends 'top.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        h1 {
+            color: #0056b3;
+        }
+        .contents{
+            margin-bottom: 15px;
+        }
+        h2,h3 {
+            color: #004080;
+        }
+        .tile ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .tile a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .tile a:hover {
+            text-decoration: underline;
+        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    th {
+      background: linear-gradient(135deg, #1a73e8 0%, #1557c0 100%);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95em;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e8eef5;
+      font-size: 0.95em;
+      color: #2c3e50;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f0f5ff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    </style>
+<div class="row">
+    <div class="tile content-wrapper contents">
+        <div class="row">
+        <div class="col-md-8">
+          <h2 class="tile-title text-center">VMware Tools Upgrade Project Overview</h2>
+          <p>The VMware Tools Upgrade Project aims to enhance the performance and functionality of virtual machines by upgrading VMware Tools to the latest supported versions across all supported operating systems. This upgrade is essential for ensuring compatibility with the underlying ESXi host versions and improving the overall user experience.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <img src="{% static 'images/VMTools_upgrade.jpg' %}" alt="VMware Tools Upgrade" style="width: 100%; max-width: 300px; height: auto;"/>
+        </div>
+        </div>
+    </div>
+    <div class="tile content-wrapper contents">
+        <h2>Project Objectives</h2>
+        <p>
+          <ul>
+            <li>Upgrade VMware Tools on all supported operating systems to the latest versions.</li>
+            <li>Ensure compatibility with the underlying ESXi host versions.</li>
+            <li>Minimize downtime and disruption during the upgrade process.</li>
+            <li>Enhance virtual machine performance and user experience.</li>
+          </ul>
+        </p>
+        <p> As part of this project, we are performing VMware tools upgrade on supported Operating System. <br> Tools to the latest supported version supported by the Guest OS and the underlying ESXi Host. The below details rules around which VMware Tools version to use. <br> Vmware Tools will be upgraded based on the below Matrix for current Operating Systems.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>ESX/ESXi Host Version</th>
+              <th>Vmware Tools Version</th>
+              <th>Guest OS</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4.x</td>
+              <td>9.4.15 (last supported version)</td>
+              <td>Linux/Windows</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td>5.0 or 5.1</td>
+              <td>10.0.9 (last supported version)</td>
+              <td>Linux/Windows</td>
+              <td> N/A </td>
+            </tr>
+            <tr>
+              <td>5.5 or later</td>
+              <td>10.2.5 (current latest version)</td>
+              <td>Linux/Windows</td>
+              <td><a href="https://docs.vmware.com/en/VMware-Tools/10.2/rn/vmware-tools-1025-release-notes.html">Release Notes 10.2</a></td>
+            </tr>
+            <tr>
+              <td>6.5 or Later</td>
+              <td> 12.1.5 (current latest version)</td>
+              <td>Windows</td>
+              <td class="truncated-cell"> 
+                <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-1-0/release-notes/vmware-tools-1215-release-notes.html">Release Notes 12.1.5</a>
+              </td> 
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="tile content-wrapper contents">
+        <h2>Deployment Methods</h2>
+        <p>
+          <ul>
+            <li>Automation</li>
+            <li>Semi-Automated</li>
+            <li>Manual Method</li>
+          </ul>
+        </p>
+	  </div>
+    <div class="tile content-wrapper contents">
+      <h2>Deploy Method via Automation</h2>
+      <p>
+        <ul>
+          <li>Use HIPPO and HPSA tools for automated deployment across infrastructure.</li>
+          <li>Validate OS compatibility before executing automation scripts.</li>
+          <li>Ensure network connectivity and service availability prior to deployment.</li>
+          <li>Review comprehensive logs post-installation to confirm successful upgrade</li>
+          <li><a href="https://lumen-nm.atlassian.net/wiki/x/j4UKBQ">Link to Refer:</a> </li>
+        </ul>
+      </p>
+    </div>
+    <div class="tile content-wrapper contents">
+      <h2>Deploy Method via Semi-Automation</h2>
+      <p>
+         <ul>
+            <li>Execute automation scripts for bulk installation across multiple servers.</li>
+            <li>Specify any needed parameters for the script execution.</li>
+            <li>Perform manual verification checks if partial failures occur during deployment.</li>
+            <li><a href="https://lumen-nm.atlassian.net/wiki/x/j4UKBQ">Link to Refer:</a></li>
+          </ul>
+      </p>
+      <p>
+        <table>
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>Policy Name with restart</th>
+              <th>Policy Name without restart</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in db %}
+              <tr>
+                <td>{{ item.version }}</td>
+                <td>{{ item.policy_name|cut:"-NR" }}</td>
+                <td>{{ item.policy_name }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+    <div class="tile content-wrapper">
+      <h2>Deploy Method via Manual Method</h2>
+      <p>Note: Navigate to the HX share location \\na.msmps.net\hosting\HX\Applications\HIERM-76-Windows either from the server you are working from or from the jump box. Copy the installer VMware-Tools-XXX.exe which is required to 'c:\xfer\' on the server you are upgrading</p> 
+      <p>Steps to follow:</p>
+        <ul>
+          <li>Logon to the server you are working on, via RDP.</li>
+          <li>Navigate to the folder c:\xfer\ which is having installer file VMware-Tools-XXX.exe.</li>
+          <li>Run the installer file VMware-Tools-XXX.exe to upgrade VMware Tools.</li>
+          <li>Follow setups and choose default options When prompted.</li>
+          <li>For no Reboot Changes "DO NOT REBOOT SERVERS"</li>
+        </ul>
+      </p>
+      <p>
+        <table>
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>File Name</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in db %}
+              <tr>
+                <td>{{ item.version }}</td>
+                <td>{{ item.manual_file_name }}</td>
+                <td><code>{{ item.manual_file_location }}</code></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+</div>
+{% endblock %}

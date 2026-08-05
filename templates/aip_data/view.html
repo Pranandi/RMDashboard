@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered" data-ajax-url="{% url 'aip_data:ajax_table' %}" data-server-side="true">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Server</th>
+                <th>Inst Comp Name</th>
+                <th>Primary IP</th>
+                <th>Inst Comp Status</th>
+                <th>AIP Status</th>
+                <th>VPDC Profile</th>
+                <th>Customer Site Id</th>
+                <th>Customer Site Name</th>
+                <th>Rank</th>
+                <th>Physical Site Id</th>
+                <th>Support Region</th>
+                <th>Sales Product Line</th>
+                <th>Service Package</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

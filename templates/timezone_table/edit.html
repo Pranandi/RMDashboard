@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <form method="post" action="{% url 'timezone_table:edit' id %}">
+          {% csrf_token %}
+          <div class="row">
+            {% if form.non_field_errors %}
+            <div class="col-12">
+              {% for error in form.non_field_errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="col-md-4 mb-3">
+              <label for="id_time_zone" class="form-label fw-semibold">{{ form.time_zone.label }}</label>
+              {{ form.time_zone }}
+              {% for error in form.time_zone.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_remedy_tz_dst_inactive" class="form-label fw-semibold">{{ form.remedy_tz_dst_inactive.label }}</label>
+              {{ form.remedy_tz_dst_inactive }}
+              {% for error in form.remedy_tz_dst_inactive.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_remedy_tz_dst_active" class="form-label fw-semibold">{{ form.remedy_tz_dst_active.label }}</label>
+              {{ form.remedy_tz_dst_active }}
+              {% for error in form.remedy_tz_dst_active.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_utc_offset" class="form-label fw-semibold">{{ form.utc_offset.label }}</label>
+              {{ form.utc_offset }}
+              {% for error in form.utc_offset.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_non_dst_offset_hours" class="form-label fw-semibold">{{ form.non_dst_offset_hours.label }}</label>
+              {{ form.non_dst_offset_hours }}
+              {% for error in form.non_dst_offset_hours.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_dst_offset" class="form-label fw-semibold">{{ form.dst_offset.label }}</label>
+              {{ form.dst_offset }}
+              {% for error in form.dst_offset.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_offset_mins" class="form-label fw-semibold">{{ form.offset_mins.label }}</label>
+              {{ form.offset_mins }}
+              {% for error in form.offset_mins.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_dst_start_time" class="form-label fw-semibold">{{ form.dst_start_time.label }}</label>
+              {{ form.dst_start_time }}
+              {% for error in form.dst_start_time.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_dst_end_time" class="form-label fw-semibold">{{ form.dst_end_time.label }}</label>
+              {{ form.dst_end_time }}
+              {% for error in form.dst_end_time.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_daylight_savings_start" class="form-label fw-semibold">{{ form.daylight_savings_start.label }}</label>
+              {{ form.daylight_savings_start }}
+              {% for error in form.daylight_savings_start.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_daylight_savings_end" class="form-label fw-semibold">{{ form.daylight_savings_end.label }}</label>
+              {{ form.daylight_savings_end }}
+              {% for error in form.daylight_savings_end.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="col-md-12 text-end">
+              <button type="submit" class="btn btn-primary">Update</button>
+              <a href="{% url 'timezone_table:view' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

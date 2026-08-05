@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <form method="post" action="{% url 'uploader_variants:add' %}">
+          {% csrf_token %}
+          <div class="row">
+            {% if form.non_field_errors %}
+            <div class="col-12">
+              {% for error in form.non_field_errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="col-md-4 mb-3">
+              <label for="id_template_id" class="form-label fw-semibold">{{ form.template_id.label }}</label>
+              {{ form.template_id }}
+              {% for error in form.template_id.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_last_updated" class="form-label fw-semibold">{{ form.last_updated.label }}</label>
+              {{ form.last_updated }}
+              {% for error in form.last_updated.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_created" class="form-label fw-semibold">{{ form.created.label }}</label>
+              {{ form.created }}
+              {% for error in form.created.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_project" class="form-label fw-semibold">{{ form.project.label }}</label>
+              {{ form.project }}
+              {% for error in form.project.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_variant_name" class="form-label fw-semibold">{{ form.variant_name.label }}</label>
+              {{ form.variant_name }}
+              {% for error in form.variant_name.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_variant" class="form-label fw-semibold">{{ form.variant.label }}</label>
+              {{ form.variant }}
+              {% for error in form.variant.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_team_name" class="form-label fw-semibold">{{ form.team_name.label }}</label>
+              {{ form.team_name }}
+              {% for error in form.team_name.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="id_variant_description" class="form-label fw-semibold">{{ form.variant_description.label }}</label>
+              {{ form.variant_description }}
+              {% for error in form.variant_description.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="id_mop" class="form-label fw-semibold">{{ form.mop.label }}</label>
+              {{ form.mop }}
+              {% for error in form.mop.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="id_team_description" class="form-label fw-semibold">{{ form.team_description.label }}</label>
+              {{ form.team_description }}
+              {% for error in form.team_description.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label fw-semibold d-block">{{ form.default_variant.label }}</label>
+              {{ form.default_variant }}
+              {% for error in form.default_variant.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label fw-semibold d-block">{{ form.active.label }}</label>
+              {{ form.active }}
+              {% for error in form.active.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label fw-semibold d-block">{{ form.impacting.label }}</label>
+              {{ form.impacting }}
+              {% for error in form.impacting.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label fw-semibold d-block">{{ form.default_project_variant.label }}</label>
+              {{ form.default_project_variant }}
+              {% for error in form.default_project_variant.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="col-md-12 text-end">
+              <button type="submit" class="btn btn-primary"><i class="bi bi-save2"></i> Save</button>
+              <a href="{% url 'uploader_variants:view' %}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

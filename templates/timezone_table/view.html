@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <th>Actions</th>
+                {% endif %}
+                <th>#</th>
+                <th>Time Zone</th>
+                <th>Remedy TZ DST Inactive</th>
+                <th>Remedy TZ DST Active</th>
+                <th>Non DST Offset Hours</th>
+                <th>DST Offset</th>
+                <th>Offset Mins</th>
+                <th>DST Start Time</th>
+                <th>DST End Time</th>
+                <th>UTC Offset</th>
+                <th>Daylight Savings Start</th>
+                <th>Daylight Savings End</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                {% if request.session.can_edit or request.session.can_delete %}
+                <td>
+                  {% if request.session.can_edit %}
+                  <a href="{% url 'timezone_table:edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                  {% endif %}
+                  {% if request.session.can_delete %}
+                  <a href="{% url 'timezone_table:delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.time_zone }}</td>
+                <td>{{ item.remedy_tz_dst_inactive }}</td>
+                <td>{{ item.remedy_tz_dst_active }}</td>
+                <td>{{ item.non_dst_offset_hours }}</td>
+                <td>{{ item.dst_offset }}</td>
+                <td>{{ item.offset_mins }}</td>
+                <td>{{ item.dst_start_time }}</td>
+                <td>{{ item.dst_end_time }}</td>
+                <td>{{ item.utc_offset }}</td>
+                <td>{{ item.daylight_savings_start }}</td>
+                <td>{{ item.daylight_savings_end }}</td>
+              </tr>
+              
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

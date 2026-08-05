@@ -1,0 +1,34 @@
+{# Dynamic active state without nested with blocks (avoids 'with' tag parsing errors) #}
+{% with request.resolver_match as match %}
+<ul class="app-menu">
+  {% for item in menu_items %}
+    {% if item.children %}
+        <li class="treeview {% if match and match.namespace in item.namespace %}is-expanded{% endif %}">
+          <a class="app-menu__item {% if match and match.namespace in item.namespace %}active{% endif %}" href="#" data-toggle="treeview">
+            <i class="app-menu__icon bi {{ item.icon }}"></i>
+            <span class="app-menu__label">{{ item.label }}</span>
+            <i class="treeview-indicator bi bi-chevron-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            {% for sub_item in item.children %}
+              <li>
+                <a class="treeview-item {% if match and match.namespace == sub_item.namespace %}active{% endif %}"
+                   href="/{{ sub_item.url }}/">
+                  <i class="icon bi {{ sub_item.icon }}"></i> {{ sub_item.label }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+    {% else %}
+      <li>
+        <a class="app-menu__item {% if match and match.namespace == item.namespace %}active{% endif %}"
+           href="/{{ item.url }}/">
+          <i class="app-menu__icon bi {{ item.icon }}"></i>
+          <span class="app-menu__label">{{ item.label }}</span>
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endwith %}

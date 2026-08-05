@@ -1,0 +1,13 @@
+{% extends 'top.html' %}
+
+{% block content %}
+<div class="page-error tile">
+    <h1 class="text-danger"><i class="bi bi-exclamation-circle"></i> Error 404: Page Not Found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <p>Please check the URL or use the navigation menu to find what you're looking for.</p>
+    <p>
+        <a class="btn btn-primary" href="{% url 'home' %}">Go to Home</a>
+        <a class="btn btn-secondary" href="javascript:window.history.back();">Go Back</a>
+    </p>
+</div>
+{% endblock %}
