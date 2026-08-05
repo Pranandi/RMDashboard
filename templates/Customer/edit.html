@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{# Styling moved to custom.css #}
+ <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+                <form method="post" action="{% url 'Customer:edit' id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        {# Rely on per-field errors rendered by form.as_p to avoid duplication #}
+                        <input type="hidden" name="customer_id" value="{{ id }}">
+                        {% if form.non_field_errors %}
+                        <div class="col-12">
+                            {% for error in form.non_field_errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="col-md-6 mb-3">
+                            <label for="id_name" class="form-label fw-semibold">{{ form.name.label }}</label>
+                            {{ form.name }}
+                            {% for error in form.name.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_contact_person_name" class="form-label fw-semibold">{{ form.contact_person_name.label }}</label>
+                            {{ form.contact_person_name }}
+                            {% for error in form.contact_person_name.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_contact_person_email" class="form-label fw-semibold">{{ form.contact_person_email.label }}</label>
+                            {{ form.contact_person_email }}
+                            {% for error in form.contact_person_email.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_contact_person_phone" class="form-label fw-semibold">{{ form.contact_person_phone.label }}</label>
+                            {{ form.contact_person_phone }}
+                            {% for error in form.contact_person_phone.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_confluence_page_link" class="form-label fw-semibold">{{ form.confluence_page_link.label }}</label>
+                            {{ form.confluence_page_link }}
+                            {% for error in form.confluence_page_link.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_customer_webpage" class="form-label fw-semibold">{{ form.customer_webpage.label }}</label>
+                            {{ form.customer_webpage }}
+                            {% for error in form.customer_webpage.errors %}
+                                <div class="error-badge">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                                <label for="id_customer_logo" class="form-label fw-semibold">{{ form.customer_logo.label }}</label>
+                                {{ form.customer_logo }}
+                                {% for error in form.customer_logo.errors %}
+                                        <div class="error-badge">{{ error }}</div>
+                                {% endfor %}
+                                {% if form.instance.customer_logo %}
+                                    <div class="mt-2">
+                                        <img src="{{ form.instance.customer_logo.url }}" alt="Current logo" style="max-width: 200px; height: auto; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);"/>
+                                    </div>
+                                {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-end">
+                          <div class="form-group">
+                              <button class="btn btn-primary" type="submit">Update</button>
+                              <a href="{% url 'Customer:view' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log("Customer Edit page script loaded.");
+</script>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'top.html' %}
+
+{% block content %}
+<style>
+.node .name {
+    border-radius: 8px 8px 0px 0px;
+    color: white !important;
+    padding: 15px 15px 0px 15px;
+    margin: 10px 10px 0px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.node .role {
+    border-radius: 0px 0px 8px 8px;
+    color: white !important;
+    padding: 0px 15px 15px 15px;
+    margin: 0px 10px 10px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Role-based gradients using slugged role classes */
+.role-manager .name,
+.role-manager .role,
+.role-manager .tooltip {
+  background: linear-gradient(135deg, #ff7ab6 0%, #ffb199 100%);
+}
+.role-release-manager .name, 
+.role-release-manager .role,
+.role-release-manager .tooltip {
+  background: linear-gradient(135deg, #60a5fa 0%, #7dd3fc 100%);
+}
+.role-release-engineer .name, 
+.role-release-engineer .role,
+.role-release-engineer .tooltip {
+  background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%);
+}
+.role-developer .name, 
+.role-developer .role,
+.role-developer .tooltip  {
+  background: linear-gradient(135deg, #34d399 0%, #86efac 100%);
+}
+.role-admin .name, 
+.role-admin .role,
+.role-admin .tooltip {
+  background: linear-gradient(135deg, #79ccc1 0%, #81daea 100%);
+}
+/* Org tree layout + connectors */
+.org-tree { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+.org-tree ul { padding-left: 0; }
+.tree { display: inline-block; white-space: nowrap; margin: 0 auto; }
+.tree ul { padding-top: 20px; position: relative; display: inline-block; margin: 0; }
+.tree li {
+  display: inline-block;
+  text-align: center;
+  list-style: none;
+  position: relative;
+  padding: 5px 5px 0 5px;
+  white-space: normal;
+}
+
+.tree > li { margin: 0 12px; }
+
+/* sibling spacing + safer text wrapping */
+.tree li { margin: 0 8px; }
+.tree .node .name, .tree .node .role { word-break: break-word; }
+
+.tree li:only-child { padding-top: 0; }
+
+/* node sizing inside the tree */
+.tree .node { display: inline-block; min-width: 220px; cursor: pointer; }
+/* Tooltip baseline */
+.node { position: relative; }
+.node .tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%) translateY(-8px);
+  min-width: 220px;
+  max-width: 280px;
+  color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 10;
+}
+
+/* Tooltip arrow */
+.node .tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: #232423 transparent transparent transparent;
+}
+.role-manager .tooltip::after {
+  left: -24px;
+  top: auto;
+  bottom: 35px;
+  transform: translateX(50%) rotate(90deg);
+  border-color: #ff7ab6 transparent transparent transparent;
+}
+.role-developer .tooltip::after {
+  border-color: #34d399 transparent transparent transparent;
+}
+.role-release-manager .tooltip::after {
+  border-color: #60a5fa transparent transparent transparent;
+}
+.role-release-engineer .tooltip::after {
+  border-color: #a78bfa transparent transparent transparent;
+}
+.role-admin .tooltip::after {
+  border-color: #79ccc1 transparent transparent transparent;
+}
+
+/* Show on hover and keyboard focus */
+.node:hover .tooltip,
+.node:focus .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-12px);
+}
+.role-manager:hover .tooltip,
+.role-manager:focus .tooltip {
+  opacity: 1;
+  transform: translateX(50%) translateY(100px);
+}
+
+/* Prevent tooltip from clipping near viewport edge */
+@media (max-width: 600px) {
+  .node .tooltip { max-width: 90vw; }
+}
+</style>
+<div class="row">
+    <div class="tile content-wrapper">
+        <h3 class="tile-title text-center" style="font-size: 2.5rem; font-weight: bold;">Team Organizational Structure</h3>
+        <p class="text-center">An overview of our team's Structure and Roles</p>
+        <div class="org-tree text-center">
+          <ul class="tree">
+            {% for emp in employees %}
+              {% include 'FrontEnd/_employee_tree.html' with node=emp %}
+            {% endfor %}
+          </ul>
+        </div>
+    </div> 
+</div>
+{% endblock %}

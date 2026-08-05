@@ -1,0 +1,555 @@
+
+{% extends 'top.html' %}
+
+{% block content %}
+<style>
+    .section-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-left: 5px solid #09ff00;
+        padding: 10px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .section-card h4 {
+        margin-top: 0;
+        color: #0056b3;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 10px;
+    }   
+    .content-wrapper .tile-title {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white !important;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+    
+    @media (max-width: 576px) {
+        .section-card { padding: 14px; }
+        .section-card h4 { font-size: 1.1rem; }
+        .btn-primary { width: 100%; text-align: center; }
+    }
+    .btn-primary {
+        display: inline-block;
+        background: #007bff;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        text-decoration: none;
+    }
+    .btn-primary:hover { background: #0056b3; }
+    .btn-primary:focus { outline: 2px solid #003d80; outline-offset: 2px; }
+
+    .highlight td {
+        background-color: #ffff00;
+        font-weight: bold;
+    }
+    .highlight i::after {
+        color: red;
+        content: "*";
+        size: 16px;
+    }
+</style>
+<div class="row">
+    <div class="tile content-wrapper">
+        <div class="row">
+            <div class ="col-md-12">
+                <h4 class="tile-title text-center" style="color: #030208b7; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 
+                sans-serif;"> <i>Projects Overview</i></h4>
+                <p class="text-center">
+                    The Global Release Management team oversees several key projects to ensure the smooth operation and security of our IT infrastructure. Below is an overview of our main projects:
+                </p>
+                <div class="row">
+                    {% for project in projects %}
+                    <div class="col-6 mb-3">
+                        <div class="section-card h-100">
+                            <h4 class="tile-tile text-center">{{ project.name }}</h4>
+                            <p>{{ project.description }}</p>
+                            <a class="btn-primary" href="{% url 'project_version' project.code %}">View Versions</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="tile content-wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="tile-title text-center" style="color: #030208b7; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"> <i>Metrics details for change & task</i></h4>
+                <div class="row mb-4">
+                    
+                    <div class="col-md-3">
+                        <label for="dateFilterSelect" style="font-weight: 600; display: block; margin-bottom: 8px;">Date Filter:</label>
+                        <select id="dateFilterSelect" class="form-control">
+                            <option value="all">All Time</option>
+                            <option value="last_24">Last 24 Hours</option>
+                            <option value="last_7">Last 7 Days</option>
+                            <option value="last_14">Last 14 Days</option>
+                            <option value="last_30">Last 30 Days</option>
+                            <option value="curr_month" selected>Current Month</option>
+                            <option value="last_month">Last Month</option>
+                            <option value="curr_year">Current Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 customDateRangeContainer" style="display: none;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 8px;">Start Date:</label>
+                        <input type="date" id="customStartDate" class="form-control" style="margin-bottom: 8px;">
+                    </div>
+                    <div class="col-md-3 customDateRangeContainer" style="display: none;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 8px;">End Date:</label>
+                        <input type="date" id="customEndDate" class="form-control" style="margin-bottom: 12px;">
+                    </div>
+                    <div class="col-md-3 customDateRangeContainer" style="display: none;">
+                        <br/>
+                        <button id="applyDateBtn" class="btn btn-primary" style="flex: 1;">Apply</button>
+                        <button id="cancelDateBtn" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="companyNameSelect" style="font-weight: 600; display: block; margin-bottom: 8px;">Select Customer:</label>
+                        <select id="companyNameSelect" class="form-control">
+                            <option value="All">All Customers</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="projectTypeSelect" style="font-weight: 600; display: block; margin-bottom: 8px;">Project Type:</label>
+                        <select id="projectTypeSelect" class="form-control">
+                            <option value="All">All Projects</option>
+                        </select>
+                    </div>
+                </div> 
+                <hr style="border-top: 2px solid #007bff; margin: 20px 0;">
+            </div>
+            <div class="col-md-12 text-center">
+                <p id="dateRangeDisplay" style="display: none;"></p>
+            </div>
+            <div class="col-md-4">
+                <div style="width: 100%; height: 400px; padding: 20px;">
+                    <canvas id="piechart_change"></canvas>
+                </div>
+            </div>
+            <div class="col-md-2" style="align-content: center;">
+                <table class="table table-bordered change" style="font-size: 12px; margin-top: 32px;">
+                    <thead>
+                        <tr style="background-color: #007bff; color: white;">
+                            <th>Metric</th>
+                            <th>Count</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="Total-row-change">
+                            <td><strong>Total</strong></td>
+                            <td id="Total_change">0</td>
+                            <td id="Total_change_percentage"></td>
+                        </tr>
+                        <tr class="Successful-row-change">
+                            <td><strong>Successful</strong></td>
+                            <td id="Successful_change">0</td>
+                            <td id="Successful_change_percentage">0%</td>
+                        </tr>
+                        <tr class="Partial-row-change">
+                            <td><strong>Partial</strong></td>
+                            <td id="Partial_change">0</td>
+                            <td id="Partial_change_percentage">0%</td>
+                        </tr>
+                        <tr class="Failed-row-change">
+                            <td><strong>Failed</strong></td>
+                            <td id="Failed_change">0</td>
+                            <td id="Failed_change_percentage">0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div style="width: 100%; height: 400px; padding: 20px;">
+                    <canvas id="piechart_task"></canvas>
+                </div>
+            </div>
+            <div class="col-md-2" style="align-content: center;">
+                <table class="table table-bordered task" style="font-size: 12px; margin-top: 32px;">
+                    <thead>
+                        <tr style="background-color: #007bff; color: white;">
+                            <th>Metric</th>
+                            <th>Count</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="Total-row-task">
+                            <td><strong>Total</strong></td>
+                            <td id="Total_task">0</td>
+                            <td id="Total_task_percentage"></td>
+                        </tr>
+                        <tr class="Success-row-task">
+                            <td><strong>Success</strong></td>
+                            <td id="Success_task">0</td>
+                            <td id="Success_task_percentage">0%</td>
+                        </tr>
+                        <tr class="Warning-row-task">
+                            <td><strong>Warning</strong></td>
+                            <td id="Warning_task">0</td>
+                            <td id="Warning_task_percentage">0%</td>
+                        </tr>
+                        <tr class="Failed-row-task">
+                            <td><strong>Failed</strong></td>
+                            <td id="Failed_task">0</td>
+                            <td id="Failed_task_percentage">0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="tile content-wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="tile-title text-center" style="color: #030208b7; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"> <i>Metric for monthly wise</i></h4>
+                <p class="text-center">
+                    <table class="table table-bordered" style="font-size: 12px; margin-top: 32px;" id="monthly_metrics">
+                        <thead>
+                            <tr style="background-color: #007bff; color: white;">
+                                <th>#</th>
+                                <th>From date</th>
+                                <th>To date</th>
+                                <th>Total Changes</th>
+                                <th>Successful Changes</th>
+                                <th>Partial Changes</th>
+                                <th>Failed Changes</th>
+                                <th>Total Tasks</th>
+                                <th>Successful Tasks</th>
+                                <th>Warning Tasks</th>
+                                <th>Failed Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </p>
+            </div>
+        </div>
+    </div> 
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        let pieChart = {'change': null, 'task': null};
+        let projectNameList = {
+            'All': 'All Projects',
+            '55': 'Netbackup Upgrade(55)',
+            '59':'SIA Upgrade(59)',
+            '76': 'VM Tools Upgrade(76)',
+            '97': 'McAfee ENS Upgrade(97)',
+            '98': 'Managed VM Automation(98)',
+            '99': 'Adhoc Patching Requests(99)',
+            '101': 'GOC Change Template(101)',
+            '104':'HP Proliant Firmware Updates(104)',
+            '106':'Static Route Changes(106)',
+            '107':'Windows Spooler Service Disable(107)',
+            '108': 'McAfee ENS Upgrade(108)',
+            '109':'Opsware Agent Upgrade(109)',
+            '501': 'Server Decommissioning(501)',          
+            'PM':'Patch Management(PM)',
+            'PS':'Scripted Patching(PS)',
+            'RA':'Reboot Only(RA)',
+            'PH':'Legacy HPSA Patching(PH)',
+            'UNKNOWN':'Uncategorized(Netbackup uninstall,Visual C++ Install, etc.)'
+        }
+        let autoRefreshInterval = null;
+        //load_Project_and_company_chart('project');
+        //load_Project_and_company_chart('company');
+        load_Project_and_company_chart('chart');
+        autoRefreshInterval = setInterval(function() {
+            load_Project_and_company_chart('chart');
+        }, 86400000); 
+        $('#projectTypeSelect, #companyNameSelect').change(function() {
+            load_Project_and_company_chart('chart');
+        });
+        $('#dateFilterSelect').change(function() {
+            const customContainer = $('.customDateRangeContainer');
+            $('#dateRangeDisplay').hide();
+            if ($(this).val() === 'custom') {
+                customContainer.show();
+            } else {
+                customContainer.hide();
+                load_Project_and_company_chart('chart');
+            }
+        });
+        $('#applyDateBtn').click(function() {
+            const startDate = $('#customStartDate').val();
+            const endDate = $('#customEndDate').val();
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates');
+                return;
+            }            
+            if (new Date(startDate) > new Date(endDate)) {
+                alert('Start date cannot be after end date');
+                return;
+            }
+            load_Project_and_company_chart('chart');
+        });
+        $('#cancelDateBtn').click(function() {
+            $('.customDateRangeContainer').hide();
+            $('#dateFilterSelect').val('all');
+            $('#customStartDate').val('');
+            $('#customEndDate').val('');
+            load_Project_and_company_chart('chart');
+        });
+        function load_Project_and_company_chart(type) {
+            param = { 'type': 'chart' };
+            if(type == 'project'){
+                param = { 'type': 'project' }
+            } else if (type == 'company') {
+                param = { 'type': 'company' }
+            } else if (type == 'chart') {
+                const dateFilter = document.getElementById('dateFilterSelect').value;
+                param['date_filter'] = dateFilter;
+                param['company_name'] = document.getElementById('companyNameSelect').value;
+                param['project_type'] = document.getElementById('projectTypeSelect').value;
+                if(dateFilter !== document.getElementById('dateFilterSelect').data) {
+                    param['company_name'] = 'All';
+                    param['project_type'] = 'All';
+                    document.getElementById('dateFilterSelect').data = dateFilter;
+                }
+                if(param['company_name'] !== document.getElementById('companyNameSelect').data) {
+                    param['project_type'] = 'All';
+                    document.getElementById('companyNameSelect').data = param['company_name'];
+                }              
+                if (dateFilter === 'custom') {
+                    const customStartDate = document.getElementById('customStartDate').value;
+                    const customEndDate = document.getElementById('customEndDate').value;
+                    if (!customStartDate || !customEndDate) {
+                        alert('Please select both start and end dates');
+                        return;
+                    }            
+                    if (new Date(customStartDate) > new Date(customEndDate)) {
+                        alert('Start date cannot be after end date');
+                        return;
+                    }
+                    param['start_date'] = customStartDate;
+                    param['end_date'] = customEndDate;
+                    if(param['start_date'] !== document.getElementById('customStartDate').data) {
+                        param['company_name'] = 'All';
+                        param['project_type'] = 'All';
+                        document.getElementById('customStartDate').data = param['start_date'];
+                    }
+                    if(param['end_date'] !== document.getElementById('customEndDate').data) {
+                        param['company_name'] = 'All';
+                        param['project_type'] = 'All';
+                        document.getElementById('customEndDate').data = param['end_date'];
+                    }
+                }
+                
+            }
+            $.ajax({
+                url: '/change-chart-data/',
+                method: 'GET',
+                data: param,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if(type == 'chart') {
+                            $('.change tbody tr').hide();
+                            $.each(response.change.metrics, function(key, value) {
+                                $('.change tbody tr.' + key + '-row-change').show();
+                                document.getElementById(key+'_change').textContent = value;
+                            });
+                            //count visible rows after filter
+                            x = $('.change tbody tr:visible');
+                            for (i = 0; i < x.length; i++) {
+                                color = (i%2 == 0) ? '#f2f2f2' : '#ffffff';
+                                $('.change tbody tr:visible').eq(i).find('td').css('background-color', color).eq(1).css('text-align', 'right');
+                            }
+                            updatePieChart('change',response.change);
+
+                            $('.task tbody tr').hide();
+                            $.each(response.task.metrics, function(key, value) {
+                                $('.task tbody tr.' + key + '-row-task').show();
+                                document.getElementById(key+'_task').textContent = value;
+                            });
+                            //count visible rows after filter
+                            x = $('.task tbody tr:visible');
+                            for (i = 0; i < x.length; i++) {
+                                color = (i%2 == 0) ? '#f2f2f2' : '#ffffff';
+                                $('.task tbody tr:visible').eq(i).find('td')
+                                    .css('background-color', color)
+                                    .eq(1).css('text-align', 'right');
+                            }
+                            updatePieChart('task',response.task);
+                            
+                            select = document.getElementById('projectTypeSelect');
+                            select.innerHTML = '';
+                            if(response.project_type.length > 1)
+                                select.append(new Option('All Projects', 'All'));
+                            $.each(response.project_type, function(index, item) {
+                                if(projectNameList[item]) {
+                                    select.append(new Option(projectNameList[item], item));
+                                } else {
+                                    select.append(new Option(item, item));
+                                }
+                            });
+                            select1 = document.getElementById('companyNameSelect');
+                            select1.innerHTML = '';
+                            select1.append(new Option('All Customers', 'All'));
+                            $.each(response.company_name, function(index, item) {
+                                select1.append(new Option(item, item));
+                            });
+                            document.getElementById('projectTypeSelect').value = response.selected_project_type;
+                            document.getElementById('companyNameSelect').value = response.selected_company_name;
+                            display_data = 'Showing data';
+                            if(response.selected_company_name && response.selected_company_name != 'All') {
+                                display_data += ` for <b>${response.selected_company_name}</b>`;
+                            }
+                            if(response.selected_project_type && response.selected_project_type != 'All' && response.selected_company_name && response.selected_company_name != 'All') {
+                                display_data += ' and <b>'+projectNameList[response.selected_project_type]+'</b>';
+                            }
+                            else if(response.selected_project_type && response.selected_project_type != 'All') {
+                                display_data += ' for <b>'+projectNameList[response.selected_project_type]+'</b>';
+                            }
+                            if(response.start_date && response.end_date){
+                                display_data += ` from <b>${response.start_date}</b> to <b>${response.end_date}</b>`;
+                            } else {
+                                display_data += ' from <b>2025-01-01 00:00:00</b> to <b>present</b>';
+                            }
+                            $('#dateRangeDisplay').html(display_data).show();
+                        } else {
+                            if(type == 'project'){
+                                select = document.getElementById('projectTypeSelect');
+                                $.each(response.data, function(index, item) {
+                                    if(projectNameList[item]) {
+                                        select.append(new Option(item+'-'+projectNameList[item], item));
+                                    } else {
+                                        select.append(new Option(item, item));
+                                    }
+                                });
+                            } else if (type == 'company') {
+                                select = document.getElementById('companyNameSelect');
+                                $.each(response.data, function(index, item) {
+                                    select.append(new Option(item, item));
+                                });
+                            }
+                        }
+                    }
+                    else {
+                        alert('Failed to load ' + type + ' data');
+                    }
+                },
+                error: function() {
+                    alert('Error loading ' + type + ' data');
+                }
+            });
+            $.ajax({
+                url: '/monthly-metrics/',
+                method: 'GET',
+                data: {},
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#monthly_metrics tbody').empty();
+                        for (i = 0; i < response.data.length; i++) {
+                            row = `<tr class='`+(response.max_date == response.data[i][2] ? `highlight` : ``)+`'>
+                                <td>${response.data[i][0]}</td>
+                                <td>${response.data[i][1]}</td>
+                                <td>${response.data[i][2]}</td>
+                                <td>${response.data[i][3]}</td>
+                                <td>${response.data[i][4]}</td>
+                                <td>${response.data[i][5]}</td>
+                                <td>${response.data[i][6]}</td>
+                                <td>${response.data[i][7]}</td>
+                                <td>${response.data[i][8]}</td>
+                                <td>${response.data[i][9]}</td>
+                                <td>${response.data[i][10]}</td>
+                            </tr>`;
+                            $('#monthly_metrics tbody').append(row);                           
+                        }
+                        $.each($('.highlight td'), function(i, item) {
+                            $(item).html($(item).html() + ' <i></i>');
+                        });
+                    }
+                    else {
+                        alert('Failed to load ' + type + ' data');
+                    }
+                }
+            });
+        }
+        
+        function updatePieChart(id,data) {
+            const ctx = document.getElementById('piechart_' + id).getContext('2d');
+            if (pieChart[id]) {
+                pieChart[id].destroy();
+            }
+            //color ConvolverNode    
+            color= {
+                'Successful': '#28a745',
+                'Partial': '#ffc107',
+                'Failed': '#dc3545',
+                'Success': '#28a745',
+                'Warning': '#ffc107',
+            };
+            labels = []
+            percentages = []
+            colors = []
+            $.each(data.metrics, function(key, value) {
+                if (key !== 'Total') {
+                    labels.push(key);
+                    const percentage = data.pie_total > 0 ? ((value / data.pie_total) * 100).toFixed(2) : 0;
+                    percentages.push(percentage);
+                    colors.push(color[key] || '#888888');
+                    $(`#${key}_${id}_percentage`).text(percentage + '%').css('text-align', 'right');
+                }
+            });
+            
+            if(id == 'change') {
+                title = `CRQs Status Distribution (Total: ${data.pie_total})`;
+            } else if (id == 'task') {
+                title = `CI(servers) Status Distribution (Total: ${data.pie_total})`;
+            }
+            pieChart[id] = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: percentages,
+                        backgroundColor: colors,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: title,
+                            font: { size: 14, weight: 'bold' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed || 0;
+                                    return `${value}%`;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });            
+        }
+    });
+</script>
+{% endblock %}

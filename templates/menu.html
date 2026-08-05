@@ -1,0 +1,49 @@
+<style>
+    .app-nav {
+        justify-content: space-evenly;
+    }
+    .app-content {
+        margin-left: auto;
+        padding: 20px;
+        /* min-height:max-content; */
+    }
+    .app-nav>li.active{
+        font-weight: bold;
+        font-size: 16px;
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e7e7e7;
+    }
+    .content-wrapper {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+</style>
+<header class="app-header">
+    <a class="app-header__logo" href="{% url 'home' %}">Lumen - RM</a>
+    <ul class="app-nav">
+        {% with request.resolver_match as match %}
+        <li class="{% if match.url_name == 'home' %}active{% endif %}"><a class="app-nav__item" href="{% url 'home' %}">Home</a></li>
+        <li class="{% if match.url_name == 'about' %}active{% endif %}"><a class="app-nav__item" href="{% url 'about' %}">About</a></li>
+        <li class="{% if match.url_name == 'employee' %}active{% endif %}"><a class="app-nav__item" href="{% url 'employee' %}">Team Structure</a></li>
+        <li class="{% if match.url_name == 'customer' %}active{% endif %}"><a class="app-nav__item" href="{% url 'customer' %}">Customers</a></li>
+        <li class="{% if match.url_name == 'project' or match.url_name == 'project_version' %}active{% endif %}"><a class="app-nav__item" href="{% url 'project' %}">Projects</a></li>
+        <li class="{% if match.url_name == 'role' %}active{% endif %}"><a class="app-nav__item" href="{% url 'role' %}">Roles</a></li>
+        <li class="{% if match.url_name == 'location' %}active{% endif %}"><a class="app-nav__item" href="{% url 'location' %}">Geo</a></li>
+        <li class="{% if match.url_name == 'escalation' %}active{% endif %}"><a class="app-nav__item" href="{% url 'escalation' %}">Coordination & Execution Escalation</a></li>
+        <li class="{% if match.url_name == 'contact_us' %}active{% endif %}"><a class="app-nav__item" href="{% url 'contact_us' %}">Contact Us</a></li>
+        {% endwith %}
+        <!--<li class="app-search">
+            <input class="app-search__input" type="search" placeholder="Search">
+            <button class="app-search__button"><i class="bi bi-search"></i></button>
+        </li>-->
+        <li><a class="app-nav__item" href="{% url 'login' %}" aria-label="Open Profile Menu"><i class="bi bi-person fs-4"></i></a>
+        </li>
+    </ul>
+</header>

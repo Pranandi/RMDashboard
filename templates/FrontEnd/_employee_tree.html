@@ -1,0 +1,24 @@
+{# Renders a node and its children as a tree branch #}
+<li>
+  <div class="node role-{{ node.employee.role|slugify }}" tabindex="0" role="button"
+       aria-label="{{ node.employee.first_name }} {{ node.employee.last_name }} ({{ node.employee.role }})">
+    <div class="name">{{ node.employee.first_name }} {{ node.employee.last_name }}</div>
+    {% if node.employee.role != "Admin" %}
+    <div class="role">{{ node.employee.role }}</div>
+    {% endif %}
+
+    <div class="tooltip" role="tooltip" aria-hidden="true">
+      <div>{{ node.employee.designation }}</div>
+      <div>{{ node.employee.email }}</div>
+      <div>{{ node.employee.location.name }}</div>
+    </div>
+  </div>
+
+  {% if node.direct_reports|length %}
+    <ul>
+      {% for child in node.direct_reports %}
+        {% include 'FrontEnd/_employee_tree.html' with node=child %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>

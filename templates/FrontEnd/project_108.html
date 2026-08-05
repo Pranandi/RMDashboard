@@ -1,0 +1,81 @@
+{% extends 'top.html' %}
+
+{% block content %}
+<style>
+    h1 {
+        color: #0056b3;
+    }
+    .main, .summary, .Purpose, .key, .success, .troubleshooting {
+        margin-bottom: 15px;
+    }
+    h2,h3 {
+        color: #004080;
+    }
+    .tile ul {
+        list-style-type: disc;
+        margin-left: 20px;
+    }
+    .tile a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+    .tile a:hover {
+        text-decoration: underline;
+    }
+</style>
+<div class="row">
+    <div class="tile content-wrapper main">
+        <h1>MOP: HIERM-108 McAfee Endpoint Security Protection Upgrade</h1>
+        <p>This MOP outlines a step-by-step automated and manual process for upgrading servers from McAfee VSE to ENS, ensuring proper agent installation, ePO configuration, and policy enforcement, with detailed troubleshooting and fallback methods.</p>
+    </div>
+    <div class="tile content-wrapper summary">
+        <h2>Summary</h2>
+        <p>This is to migrate or upgrade the McAfee VirusScan Engine into a McAfee Endpoint Security Protections and configure the Policy Orchestrator to use HUB1EPO04.</p>
+    </div>
+    <div class="tile content-wrapper Purpose">
+        <h2>Purpose</h2>
+        <p><ul>
+            <li>Upgrade/migrate servers from McAfee VirusScan Engine (VSE) to McAfee Endpoint Security (ENS).</li>
+            <li>Configure servers to use Hub1EPO04 as the central ePolicy Orchestrator (ePO).</li>
+            <li>Ensure latest McAfee Agent and ENS version are installed.</li>
+            <li>Maintenance is non-impacting (should not disrupt services).</li>
+        </ul></p>
+    </div>
+    <div class="tile content-wrapper key">
+        <h3>Key Procedures</h3>
+        <ul>
+            <li>Validation: Servers must pass McAfee Sysprep health checks before automation runs.</li>
+            <li>Automation: Zero-touch and fully automated methods available via Hippo/HPSA dashboards.</li>
+            <li>Pre-Checks: Scripts verify agent versions, ports, certificates, and VirusScan health.</li>
+            <li>Installation: Automated or manual installation of ENS and McAfee Agent packages (versions 5.7.6, 5.7.7, 5.7.9, 5.8.1).</li>
+            <li>Post-Checks: Scripts confirm successful installation, policy application, and connectivity to ePO.</li>
+            <li>Manual Method: Used if automation fails; involves Sysprep, certificate fixes, agent installation, and ENS setup.</li>
+        </ul>
+    </div>
+    <div class="tile content-wrapper success">
+        <h3>Success Criteria</h3>
+        <ul>
+            <li>Latest ENS and McAfee Agent installed.</li>
+            <li>Server configured to Hub1EPO04.</li>
+            <li>Policies applied correctly via ePO.</li>
+            <li>No degradation in server state after maintenance.</li>
+        </ul>
+    </div>
+    <div class="tile content-wrapper troubleshooting">
+        <h3>Troubleshooting</h3>
+        <ul>
+            <li>Missing servers in ePO: Use manual tagging and agent wake-up calls.</li>
+            <li>Agent communication issues: Verify connectivity, enforce policies, reinstall agent if needed.</li>
+            <li>Update failures: Check management type; reinstall agent if not linked to ePO.</li>
+            <li>Removal tool: Used if ENS/VSE installation fails; requires reboot and may need multiple runs.</li>
+            <li>Common issues: Old McAfee services stopped, DAT files not updating, policies not applying.</li>
+        </ul>            
+    </div>
+    <div class="tile content-wrapper moplink">
+        <h3>MOP Link</h3>
+        <p><a href="https://lumen-nm.atlassian.net/wiki/x/voAKBQ" target="_blank">HIERM-108 McAfee Endpoint Security Protection Upgrade MOP</a></p>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

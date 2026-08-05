@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <form method="post" action="{% url 'uploader_variants:delete' item.id %}">
+          {% csrf_token %}
+          <p>Are you sure you want to delete this record for <b>{{ item.variant_name }}</b>?</p>
+          <div class="col-md-12 text-end">
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a href="{% url 'uploader_variants:view' %}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

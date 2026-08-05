@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <form method="post" action="{% url 'aip_data:add' %}">
+          {% csrf_token %}
+          <div class="row">
+            {% if form.non_field_errors %}
+            <div class="col-12">
+              {% for error in form.non_field_errors %}
+              <div class="error-badge">{{ error }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="col-md-4 mb-3">
+              <label for="id_server" class="form-label fw-semibold">{{ form.server.label }}</label>
+              {{ form.server }}
+              {% for error in form.server.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_inst_comp_name" class="form-label fw-semibold">{{ form.inst_comp_name.label }}</label>
+              {{ form.inst_comp_name }}
+              {% for error in form.inst_comp_name.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_primary_ip" class="form-label fw-semibold">{{ form.primary_ip.label }}</label>
+              {{ form.primary_ip }}
+              {% for error in form.primary_ip.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_inst_comp_status" class="form-label fw-semibold">{{ form.inst_comp_status.label }}</label>
+              {{ form.inst_comp_status }}
+              {% for error in form.inst_comp_status.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_aip_status" class="form-label fw-semibold">{{ form.aip_status.label }}</label>
+              {{ form.aip_status }}
+              {% for error in form.aip_status.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_vpdc_profile" class="form-label fw-semibold">{{ form.vpdc_profile.label }}</label>
+              {{ form.vpdc_profile }}
+              {% for error in form.vpdc_profile.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_customer_site_id" class="form-label fw-semibold">{{ form.customer_site_id.label }}</label>
+              {{ form.customer_site_id }}
+              {% for error in form.customer_site_id.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_customer_site_name" class="form-label fw-semibold">{{ form.customer_site_name.label }}</label>
+              {{ form.customer_site_name }}
+              {% for error in form.customer_site_name.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_rank" class="form-label fw-semibold">{{ form.rank.label }}</label>
+              {{ form.rank }}
+              {% for error in form.rank.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_physical_site_id" class="form-label fw-semibold">{{ form.physical_site_id.label }}</label>
+              {{ form.physical_site_id }}
+              {% for error in form.physical_site_id.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_support_region" class="form-label fw-semibold">{{ form.support_region.label }}</label>
+              {{ form.support_region }}
+              {% for error in form.support_region.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_sales_product_line" class="form-label fw-semibold">{{ form.sales_product_line.label }}</label>
+              {{ form.sales_product_line }}
+              {% for error in form.sales_product_line.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="id_service_package" class="form-label fw-semibold">{{ form.service_package.label }}</label>
+              {{ form.service_package }}
+              {% for error in form.service_package.errors %}<div class="error-badge">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="col-md-12 text-end">
+              <button type="submit" class="btn btn-primary"><i class="bi bi-save2"></i> Save</button>
+              <a href="{% url 'aip_data:view' %}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
