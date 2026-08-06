@@ -29,8 +29,8 @@
     <a class="app-header__logo" href="{% url 'home' %}">Lumen - RM</a>
     <ul class="app-nav">
         {% with request.resolver_match as match %}
-        <li class="{% if match.url_name == 'home' %}active{% endif %}"><a class="app-nav__item" href="{% url 'home' %}">Home page</a></li>
-        <li class="{% if match.url_name == 'about' %}active{% endif %}"><a class="app-nav__item" href="{% url 'about' %}">About page</a></li>
+        <li class="{% if match.url_name == 'home' %}active{% endif %}"><a class="app-nav__item" href="{% url 'home' %}"> Home </a></li>
+        <li class="{% if match.url_name == 'about' %}active{% endif %}"><a class="app-nav__item" href="{% url 'about' %}"> About </a></li>
         <li class="{% if match.url_name == 'employee' %}active{% endif %}"><a class="app-nav__item" href="{% url 'employee' %}">Team Structure</a></li>
         <li class="{% if match.url_name == 'customer' %}active{% endif %}"><a class="app-nav__item" href="{% url 'customer' %}">Customers</a></li>
         <li class="{% if match.url_name == 'project' or match.url_name == 'project_version' %}active{% endif %}"><a class="app-nav__item" href="{% url 'project' %}">Projects</a></li>
