@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rmtestproject
+  namespace: rm-namespace
+  labels:
+    app.kubernetes.io/name: rmtestproject
+    kubernetes.azure.com/generator: devhub
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: rmtestproject
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

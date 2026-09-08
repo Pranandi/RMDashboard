@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: rmtestproject
+  labels:
+    app.kubernetes.io/name: rmtestproject
+    app.kubernetes.io/part-of: rmtestproject-project
+    kubernetes.azure.com/generator: devhub
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: rmtestproject
